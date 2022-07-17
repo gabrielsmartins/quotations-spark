@@ -1,0 +1,22 @@
+1-Start Cluster
+spark-class org.apache.spark.deploy.master.Master
+
+2-Start Worker
+spark-class org.apache.spark.deploy.worker.Worker spark://172.29.32.1:7077
+
+3-Submit Job
+spark-submit --deploy-mode cluster --master spark://172.29.16.1:7077 --driver-java-options "-Dlogback.configurationFile=C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\logback.xml" --class br.gabrielsmartins.customers.CustomerApplication target/customers-spark-1.0.0-SNAPSHOT-jar-with-dependencies.jar C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\customers.csv
+
+spark-submit --deploy-mode cluster --master spark://172.29.16.1:7077 --conf spark.driver.extraJavaOptions="-Dlogback.configurationFile=/C:/Users/Gabriel/IdeaProjects/customers-spark/src/main/resources/logback.xml" --conf spark.executor.extraJavaOptions="-Dlogback.configurationFile=/C:/Users/Gabriel/IdeaProjects/customers-spark/src/main/resources/logback.xml" --class br.gabrielsmartins.customers.CustomerApplication target/customers-spark-1.0.0-SNAPSHOT-jar-with-dependencies.jar C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\customers.csv
+spark-submit --deploy-mode cluster --master spark://172.29.16.1:7077 --conf spark.driver.extraJavaOptions="-Dlogback.configurationFile=\C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\logback.xml" --conf spark.executor.extraJavaOptions="-Dlogback.configurationFile=\C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\logback.xml" --class br.gabrielsmartins.customers.CustomerApplication target/customers-spark-1.0.0-SNAPSHOT-jar-with-dependencies.jar C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\customers.csv
+
+
+spark-submit --deploy-mode cluster --master spark://172.29.32.1:7077 --conf spark.driver.userClassPathFirst=true --conf spark.executor.userClassPathFirst=true --class br.gabrielsmartins.customers.CustomerApplication target/customers-spark-1.0.0-SNAPSHOT-jar-with-dependencies.jar C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\customers.csv
+
+
+aws sqs create-queue --queue-name QuotationsQueue --endpoint http://localhost:4566
+aws sqs list-queues --endpoint http://localhost:4566
+
+spark-submit --deploy-mode cluster --master spark://172.29.32.1:7077 --class br.gabrielsmartins.quotations.StockQuoteApplication target/quotation-spark.jar C:\Users\Gabriel\IdeaProjects\customers-spark\src\main\resources\quotations.json
+
+--conf spark.driver.extraJavaOptions="-Dlogback.configurationFile=/C:/Users/Gabriel/IdeaProjects/customers-spark/src/main/resources/logback.xml" --conf spark.executor.extraJavaOptions="-Dlogback.configurationFile=/C:/Users/Gabriel/IdeaProjects/customers-spark/src/main/resources/logback.xml"

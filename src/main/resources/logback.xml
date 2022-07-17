@@ -1,0 +1,30 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>false</withJansi>
+        <!-- encoders are assigned the type	  ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <Appender name="splunk" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+        <url>http://localhost:8088</url>
+        <token>splunkhectoken</token>
+        <index>default</index>
+        <disableCertificateValidation>true</disableCertificateValidation>
+        <layout class="net.logstash.logback.layout.LogstashAccessLayout">
+            <customFields>{"appname":"quotation-spark"}</customFields>
+        </layout>
+    </Appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="splunk"/>
+    </root>
+
+    <!--
+    <logger name="org.apache.spark" level="INFO"/>
+    -->
+
+</configuration>
